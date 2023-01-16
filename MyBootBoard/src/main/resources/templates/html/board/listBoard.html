@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>글 목록</title>
+<link rel="stylesheet" th:href="@{/css/board.css}" />
+</head>
+<body>
+	<div class="wrapper">
+		<div class="title">
+			<h1>게시글 목록</h1>
+
+			<span sec:authorize="isAuthenticated()"> <span
+				sec:authentication="principal.username"></span> 님 환영합니다. <a
+				th:href="@{/system/logout}">로그아웃</a>
+				 <a th:href="@{/admin/adminPage}"
+				 sec:authorize="hasRole('ROLE_ADMIN')">게시판관리</a>
+			</span>
+		</div>
+		<div>
+			<form th:action="@{/board/listBoard}" method="post">
+				<select name="searchCategory">
+					<option value="공지">공지</option>
+					<option value="자유">자유</option>
+					<option value="기타">기타</option>
+				</select> 
+				<select name="searchCondition">
+					<option value="TITLE">제목</option>
+					<option value="CONTENT">내용</option>
+				</select>
+				 <input name="searchKeyword" type="text">
+				<button type="submit">검색</button>
+			</form>
+		</div>
+		<div></div>
+		<div class="content">
+			<table class="listBoard">
+				<colgroup>
+					<col width="50">
+					<col width="400">
+					<col width="100">
+					<col width="80">
+					<col width="20">
+					<col width="50">
+				</colgroup>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>등록일</th>
+					<th>조회수</th>
+					<th>카테고리</th>
+				</tr>
+				<tr th:each="board, state:${boardList}">
+					<td th:text="${state.count}">
+					<td class="alignLeft"><a
+						th:href="@{/board/getBoard(action='getBoard', seq=${board.seq})}"
+						th:text="${board.title}"></a></td>
+					<td th:text="${board.member.name}">
+					<td th:text="${#dates.format(board.createDate,'yyyy-MM-dd')}">
+					<td th:text="${board.cnt}">
+					<td th:text="${board.category.categoryid}">
+				</tr>
+			</table>
+		</div>
+		
+		<div class="alignCenter">
+		<br><a th:href="@{/board/insertBoard}">새글 등록</a><br>
+		</div>
+		<div class="alignCenter" id="paging">
+			<a href="?page=1">1</a> 
+			<a href="?page=2">2</a>
+			<a href="?page=3">3</a>
+			<a href="?page=4">4</a>
+			<a href="?page=5">5</a>
+		</div>
+		<div class="alignCenter" id="excel">
+		<a th:href="@{/board/download}">excel download</a>
+		</div>
+	</div>
+</body>
+</html>

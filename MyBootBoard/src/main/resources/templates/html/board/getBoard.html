@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>글 상세</title>
+<link rel="stylesheet" th:href="@{/css/board.css}" />
+</head>
+<body>
+	<div class="wrapper">
+		<div class="title">
+			<h1>게시글 상세</h1>
+
+		</div>
+		<div class="content">
+			<form th:action="@{/board/updateBoardProc}" method="post">
+				<input name="seq" type="hidden" th:value="${board.seq}" />
+				<table class="getBoard">
+					<colgroup>
+						<col width="30%">
+						<col width="70%">
+					</colgroup>
+					<tr>
+						<td>제목</td>
+						<td class="alignLeft"><input name="title" type="text"
+							th:value="${board.title}"></td>
+					</tr>
+					<tr>
+						<td>작성자</td>
+						<td class="alignLeft" th:text="${board.member.name}"></td>
+					</tr>
+					<tr>
+						<td>카테고리</td>
+						<td class="alignLeft" th:text="${board.category.categoryid}"></td>
+					</tr>
+					<tr>
+						<td>내용</td>
+						<td class="alignLeft"><textarea name="content" cols="40"
+								rows="10" th:text="${board.content}"></textarea></td>
+					</tr>
+					<tr>
+						<td>등록일</td>
+						<td class="alignLeft"
+							th:text="${#dates.format(board.createDate,'yyyy-MM-dd')}">
+					</tr>
+					<tr>
+						<td>조회수</td>
+						<td class="alignLeft" th:text="${board.cnt}"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="alignCenter"><input type="submit"
+							value="글 수정" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div>
+			<a th:href="@{/board/insertBoard}">글등록</a>&nbsp;&nbsp; <a
+				sec:authorize="hasRole('ROLE_ADMIN')"
+			
+				th:href="@{/board/deleteBoard(seq=${board.seq})}">글삭제</a>&nbsp;&nbsp;
+			<a th:href="@{/board/listBoard}">글목록</a>&nbsp;&nbsp;
+			<a th:href="@{/board/mail}">메일 보내기</a>
+		</div>
+	</div>
+</body>
+</html>

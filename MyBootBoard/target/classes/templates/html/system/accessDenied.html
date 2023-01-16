@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>시큐리티 테스트</title>
+<link rel="stylesheet" th:href="@{/css/board.css}" />
+</head>
+<body>
+	<div class="wrapper">
+		<div class="title">
+			<h3>접근 거부!!!</h3>
+		</div>
+		<div class="content">
+			<p>
+				<a th:href="@{/system/login}">다시로그인</a>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
